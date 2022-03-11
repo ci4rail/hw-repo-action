@@ -8,5 +8,5 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: pack.py ${{ inputs.exclude-patterns }}
+    - run: ./pack.py ${{ inputs.exclude-patterns }}
       shell: bash
