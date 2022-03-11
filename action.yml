@@ -1,23 +1,12 @@
-name: "EMS Release"
-description: "Create a production documentation (zip) for EMS, put it on sharefile"
+name: "EMS Package"
+description: "Create a production documentation (zip) for EMS"
 inputs:
-  who-to-greet: # id of input
-    description: "Who to greet"
+  exclude-patterns:
+    description: "File patterns to exclude from package"
     required: true
-    default: "World"
-outputs:
-  random-number:
-    description: "Package file name"
-    value: ${{ steps.random-number-generator.outputs.random-id }}
+    default: ""
 runs:
   using: "composite"
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
-      shell: bash
-    - id: random-number-generator
-      run: echo "::set-output name=random-id::$(echo $RANDOM)"
-      shell: bash
-    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
-      shell: bash
-    - run: goodbye.py ${{ inputs.who-to-greet }}
+    - run: pack.py ${{ inputs.exclude-patterns }}
       shell: bash
