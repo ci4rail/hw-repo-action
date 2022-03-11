@@ -1,13 +1,13 @@
-name: 'Hello World'
-description: 'Greet someone'
+name: "EMS Release"
+description: "Create a production documentation (zip) for EMS, put it on sharefile"
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  who-to-greet: # id of input
+    description: "Who to greet"
     required: true
-    default: 'World'
+    default: "World"
 outputs:
   random-number:
-    description: "Random number"
+    description: "Package file name"
     value: ${{ steps.random-number-generator.outputs.random-id }}
 runs:
   using: "composite"
@@ -18,6 +18,6 @@ runs:
       run: echo "::set-output name=random-id::$(echo $RANDOM)"
       shell: bash
     - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
-      shell: bash          
+      shell: bash
     - run: goodbye.sh
       shell: bash
