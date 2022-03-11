@@ -1,4 +1,4 @@
-#!python3
+#! /usr/binpython3
 import sys
 
 print("Hello")
