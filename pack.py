@@ -4,7 +4,6 @@ import os
 import zipfile
 import fnmatch
 
-
 def is_included(path, exclude_patterns):
     for p in exclude_patterns:
         if fnmatch.fnmatch(path, p):
@@ -15,10 +14,9 @@ def scan(path, exclude_patterns):
     entries = []
     with os.scandir(path) as it:
         for entry in it:
-            if not entry.name.startswith('.') and is_included(entry.path, exclude_patterns):
+            if is_included(entry.path, exclude_patterns):
                 if entry.is_file():
                     entries.append(entry.path)
-                    print(entry.path)
                 if entry.is_dir():
                     entries = entries + scan(entry.path, exclude_patterns)
     return entries
@@ -30,12 +28,21 @@ def zip_files(zipfile_name, arc_prepend, files):
         f.write(file, os.path.join(arc_prepend, file))
     f.close()
 
-exclude_patterns = sys.argv[1].split()
+if len(sys.argv) < 3:
+    print(f"Usage: {sys.argv[0]} filename exclude-patterns")
+    sys.exit(1)
 
-print(f"exclude: {exclude_patterns}")
+filename = sys.argv[1]
+exclude_patterns = sys.argv[2].split()
+exclude_patterns.append('*/.git*')
+
+print(f"exclude-patterns: {exclude_patterns}")
 
 files = scan(".", exclude_patterns)
-zip_files("/tmp/my.zip", "", files)
+
+print(f"Files in {filename}:")
+print("\n".join(files))
+zip_files(filename, "", files)
 
 
 

@@ -1,15 +1,18 @@
-name: "EMS Package"
-description: "Create a production documentation (zip) for EMS"
+name: "ZIP Repo"
+description: "Create a ZIP file from the repository, excluding selected files"
 inputs:
-  exclude-patterns:
-    description: "File patterns to exclude from package"
+  output-path:
+    description: "Absolute path with filename of the ZIP file to create"
     required: true
     default: ""
+  exclude-patterns:
+    description: "File patterns to exclude from package. Patterns must be white space separated"
+    required: false
+    default: ""
+
 runs:
   using: "composite"
   steps:
-    - run: ls
-      shell: bash
     # Add action's path so that pack.py can be found
     - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
       shell: bash
